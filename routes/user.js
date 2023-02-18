@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const { token } = require('morgan');
 
 
+
 router.get('/', user_jwt,async (req, res, next)=>{
     try{
         const user = await User.findById(req.user.id).select('-password');
@@ -28,7 +29,7 @@ router.post('/register',async (req,res,next) =>{
     const {username, email, password}= req.body;
 
     try{
-        let user_exist = await User.findone({ email: email});
+        let user_exist = await User.findOne({ email: email});
         if (user_exist){
             res.json({
                 success: false,
@@ -63,12 +64,6 @@ router.post('/register',async (req,res,next) =>{
                 token: token
             });
         });
-
-        res.json({
-            success: true,
-            msg: 'user registered',
-            user: user
-        })
         
     }catch(err){
         console.log(err);
@@ -82,7 +77,7 @@ router.post('/login',async (req, res, next) => {
 
     try {
 
-        let user = await User.findone({
+        let user = await User.findOne({
             email: email 
         });
 
